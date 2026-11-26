@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p app/src/main/assets/nodejs-project
           curl -L --fail --retry 3 -o website.zip https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/test/StJosephResultChecker.1.3.0.zip
-          unzip -q website.zip -d website-extract
+          python3 -c "import zipfile; zipfile.ZipFile('website.zip').extractall('website-extract')"
           src=$(find website-extract -maxdepth 2 -type d -name lib | head -1)
           root=$(dirname "$src")
           cp -r "$root"/* app/src/main/assets/nodejs-project/
@@ -36,7 +36,7 @@ jobs:
       - name: Fetch nodejs-mobile runtime (cloud)
         run: |
           curl -L --fail --retry 3 -o node-mobile.zip https://github.com/JaneaSystems/nodejs-mobile/releases/download/nodejs-mobile-v0.3.3/nodejs-mobile-v0.3.3-android.zip
-          unzip -q node-mobile.zip -d node-mobile
+          python3 -c "import zipfile; zipfile.ZipFile('node-mobile.zip').extractall('node-mobile')"
           mkdir -p app/libnode/bin app/libnode/include/node
           for pair in "arm64-v8a:arm64" "armeabi-v7a:arm" "x86_64:x64" "x86:x86"; do
             abi=${pair%%:*}; alias=${pair##*:}
