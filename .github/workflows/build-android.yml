@@ -31,14 +31,14 @@ jobs:
 
       - name: Fetch website bundle (cloud)
         run: |
-          mkdir -p android_app/app/src/main/assets/nodejs-project
+          mkdir -p app/src/main/assets/nodejs-project
           curl -L --fail --retry 3 -o website.zip \
             https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/test/StJosephResultChecker.1.3.0.zip
           unzip -q website.zip -d website-extract
           src=$(find website-extract -maxdepth 2 -type d -name lib | head -1)
           root=$(dirname "$src")
-          cp -r "$root"/* android_app/app/src/main/assets/nodejs-project/
-          find android_app/app/src/main/assets/nodejs-project -maxdepth 1 | head -20
+          cp -r "$root"/* app/src/main/assets/nodejs-project/
+          find app/src/main/assets/nodejs-project -maxdepth 1 | head -20
 
       - name: Download nodejs-mobile runtime (cloud)
         run: |
@@ -48,34 +48,34 @@ jobs:
           echo "=== zip layout ==="
           find node-mobile -maxdepth 3 -type f | head -40
           echo "=== placing libnode.so + headers ==="
-          mkdir -p android_app/app/libnode/bin
+          mkdir -p app/libnode/bin
           for abi in arm64-v8a armeabi-v7a x86 x86_64; do
-            mkdir -p android_app/app/libnode/bin/$abi
+            mkdir -p app/libnode/bin/$abi
             so=$(find node-mobile -name "libnode.so" -path "*$abi*" | head -1)
             if [ -z "$so" ]; then so=$(find node-mobile -name "libnode.so" | grep -i "${abi/arm64/aarch64}" | head -1); fi
-            if [ -n "$so" ]; then cp "$so" android_app/app/libnode/bin/$abi/libnode.so; fi
+            if [ -n "$so" ]; then cp "$so" app/libnode/bin/$abi/libnode.so; fi
           done
           hdr=$(find node-mobile -type d -name node | head -1)
           if [ -n "$hdr" ]; then
-            mkdir -p android_app/app/libnode/include/node
-            cp "$hdr"/*.h android_app/app/libnode/include/node/ 2>/dev/null || true
+            mkdir -p app/libnode/include/node
+            cp "$hdr"/*.h app/libnode/include/node/ 2>/dev/null || true
           fi
-          ls -la android_app/app/libnode/bin/*/libnode.so || true
+          ls -la app/libnode/bin/*/libnode.so || true
 
       - name: Grant Gradle wrapper
-        working-directory: android_app
+        working-directory: .
         run: |
           if [ -f gradlew ]; then chmod +x gradlew; fi
 
       - name: Build APK
-        working-directory: android_app
+        working-directory: .
         run: |
           if [ -f gradlew ]; then ./gradlew assembleRelease --no-daemon; else gradle assembleRelease --no-daemon; fi
 
       - name: Collect APK
         run: |
           mkdir -p artifacts
-          find android_app -name "*.apk" -exec cp {} artifacts/StJosephResultChecker.apk \;
+          find . -name "*.apk" -exec cp {} artifacts/StJosephResultChecker.apk \;
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
