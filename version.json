@@ -1,5 +1,9 @@
 {
-    "version": "1.3.0",
-    "download_url": "https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/test/StJosephResultChecker.1.3.0.zip",
-    "notes": "St. Joseph Result Checker - website package v1.3.0"
+  "version": "1.3.0",
+  "download_url": "https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/test/StJosephResultChecker.1.3.0.zip",
+  "notes": "St. Joseph Result Checker - website package v1.3.0",
+  "android": {
+    "apk_version": "1.3.0",
+    "apk_url": "https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/v1.2.0/StJosephResultChecker.apk"
+  }
 }
