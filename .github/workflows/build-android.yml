@@ -37,17 +37,16 @@ jobs:
         run: |
           curl -L --fail --retry 3 -o node-mobile.zip https://github.com/JaneaSystems/nodejs-mobile/releases/download/nodejs-mobile-v0.3.3/nodejs-mobile-v0.3.3-android.zip
           python3 -c "import zipfile; zipfile.ZipFile('node-mobile.zip').extractall('node-mobile')"
-          mkdir -p app/libnode/bin app/libnode/include/node
-          for pair in "arm64-v8a:arm64" "armeabi-v7a:arm" "x86_64:x64" "x86:x86"; do
-            abi=${pair%%:*}; alias=${pair##*:}
-            mkdir -p app/libnode/bin/$abi
-            so=$(find node-mobile -name libnode.so | grep -i "$alias" | head -1)
-            if [ -z "$so" ]; then so=$(find node-mobile -name libnode.so | head -1); fi
-            [ -n "$so" ] && cp "$so" app/libnode/bin/$abi/libnode.so
-          done
+          mkdir -p app/libnode/bin/arm64-v8a app/libnode/include/node
+          echo '=== available libnode.so files ==='
+          find node-mobile -name libnode.so
+          so=$(find node-mobile -name libnode.so -path '*arm64*' | head -1)
+          if [ -z "$so" ]; then so=$(find node-mobile -name libnode.so -path '*aarch64*' | head -1); fi
+          if [ -z "$so" ]; then echo 'NO ARM64 libnode.so FOUND'; exit 1; fi
+          cp "$so" app/libnode/bin/arm64-v8a/libnode.so
           hdr=$(find node-mobile -type d -name node | head -1)
           [ -n "$hdr" ] && cp -r "$hdr"/. app/libnode/include/node/ || true
-          ls -la app/libnode/bin/*/libnode.so
+          ls -la app/libnode/bin/arm64-v8a/libnode.so
 
       - name: Build APK
         run: |
