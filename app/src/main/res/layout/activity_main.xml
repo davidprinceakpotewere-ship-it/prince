@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#F5F4F0">
+
+    <TextView android:id="@+id/status"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:padding="14dp" android:textSize="14sp" android:textColor="#333333"
+        android:text="Checking for updates..." />
+
+    <Button android:id="@+id/btnRun" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_margin="8dp"
+        android:text="Run website" />
+
+    <Button android:id="@+id/btnUpdate" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_margin="8dp"
+        android:text="Install update" android:visibility="gone" />
+
+    <WebView android:id="@+id/web" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" />
+</LinearLayout>
