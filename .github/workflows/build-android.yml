@@ -51,7 +51,7 @@ jobs:
       - name: Build APK
         run: |
           export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH
-          gradle assembleRelease --no-daemon -Dorg.gradle.java.home=$JAVA_HOME
+          gradle assembleDebug --no-daemon -Dorg.gradle.java.home=$JAVA_HOME
 
       - name: Collect and upload APK
         run: |
