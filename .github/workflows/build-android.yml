@@ -27,7 +27,7 @@ jobs:
       - name: Fetch website bundle (cloud)
         run: |
           mkdir -p app/src/main/assets/nodejs-project
-          curl -L --fail --retry 3 -o website.zip https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/test/StJosephResultChecker_Android_bundle.zip
+          curl -L --fail --retry 3 -o website.zip https://github.com/davidprinceakpotewere-ship-it/prince/releases/download/v1.2.0/StJosephResultChecker_Android_bundle.zip
           python3 -c "import zipfile; zipfile.ZipFile('website.zip').extractall('website-extract')"
           src=$(find website-extract -maxdepth 2 -type d -name lib | head -1)
           root=$(dirname "$src")
